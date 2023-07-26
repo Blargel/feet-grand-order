@@ -103,7 +103,7 @@ export function ServantAutocomplete({
     if (newValue == null) {
       onValueChange(null)
     } else {
-      onValueChange({name: newValue.name, alias: null})
+      onValueChange({...newValue, alias: null})
       setInputValue(newValue.name)
     }
   }, [onValueChange])

@@ -9,7 +9,7 @@ export function ClassIcon({className}: ClassIconProps) {
   return (
     <Image
       src={`/class/${className}.png`}
-      alt="Someone's foot?"
+      alt={className}
       width={35}
       height={35}
     />
