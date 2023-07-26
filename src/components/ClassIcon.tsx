@@ -2,14 +2,14 @@ import type { ServantClass } from "@/servants";
 import Image from "next/image";
 
 export interface ClassIconProps {
-  className: ServantClass;
+  servantClass: ServantClass;
 }
 
-export function ClassIcon({className}: ClassIconProps) {
+export function ClassIcon({servantClass}: ClassIconProps) {
   return (
     <Image
-      src={`/class/${className}.png`}
-      alt={className}
+      src={`/class/${servantClass}.png`}
+      alt={servantClass}
       width={35}
       height={35}
     />

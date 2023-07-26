@@ -4,7 +4,7 @@ import { ServantData } from "./types";
 export function getRandomServants(amount: number, naOnly: boolean): ServantData[] {
   let servants = [...SERVANTS]
   if (naOnly) {
-    servants = servants.filter((servant) => servant.inNA)
+    servants = servants.filter((servant) => servant.inNa)
   }
   return shuffle(servants).slice(0, amount)
 }

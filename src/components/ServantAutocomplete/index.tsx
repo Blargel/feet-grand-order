@@ -4,7 +4,6 @@ import { ServantAutocompleteOption } from './types'
 import { Dispatch, HTMLAttributes, SetStateAction, useCallback, useState } from 'react'
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
-import Image from 'next/image';
 import { ClassIcon } from '../ClassIcon';
 
 function getOptionLabel(option: ServantAutocompleteOption) {
@@ -50,7 +49,7 @@ function renderOption(
     <Box component="li" {...props} key={option.alias ?? option.name}>
       <div className="flex items-center">
         <div className="pr-2 pt-2">
-          <ClassIcon className={option.className}/>
+          <ClassIcon servantClass={option.servantClass}/>
         </div>
         <div>
           <Typography>
