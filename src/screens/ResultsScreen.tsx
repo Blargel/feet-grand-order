@@ -48,13 +48,16 @@ export function ResultsScreen() {
         </Typography>
       </div>
 
-      <div className='mt-8'>
+      <div className='mt-8 flex flex-wrap justify-center items-start'>
         {
           detailedResultsRows.map((row) => (
-            <div key={row.name} className="flex flex-col items-center justify-center py-4">
+            <div key={row.name} className="flex-none flex flex-col items-center justify-center p-6">
               <HeelPortrait footId={row.footId} />
               <Typography variant='body2'>
-                Correct answer: {row.name}
+                Correct answer:
+              </Typography>
+              <Typography variant='body2'>
+                {row.name}
               </Typography>
               <Typography variant='body2'>
                 Your answers:
