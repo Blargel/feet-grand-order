@@ -17,17 +17,30 @@ export function TitleScreen() {
   return (
     <PageWrapper>
       <MainLogo />
+
       <div className="py-8">
-        <Typography variant='h5'>The degenerate FGO feet identification game</Typography>
+        <Typography variant='h5' align='center'>The degenerate FGO feet identification game</Typography>
       </div>
 
       <div className="py-8">
         <Typography variant="h6">Rules:</Typography>
-        <Typography>* You will be shown a portrait of a servant&apos;s feet.</Typography>
-        <Typography>* Guessing the correct servant earns 5 points and goes to the next portrait.</Typography>
-        <Typography>* Guessing the wrong servant loses 1 point and will not go to the next portrait.</Typography>
-        <Typography>* You can choose to skip to prevent losing points on a servant you don&apos;t know.</Typography>
-        <Typography>* The correct answers will not be revealed if you miss them - only at the very end.</Typography>
+        <ul>
+          <li>
+            <Typography>You will be shown a portrait of a servant&apos;s feet.</Typography>
+          </li>
+          <li>
+            <Typography>Guessing the correct servant earns 5 points and goes to the next portrait.</Typography>
+          </li>
+          <li>
+            <Typography>Guessing the wrong servant loses 1 point and will not go to the next portrait.</Typography>
+          </li>
+          <li>
+            <Typography>You can choose to skip to prevent losing points on a servant you don&apos;t know.</Typography>
+          </li>
+          <li>
+            <Typography>The correct answers will not be revealed if you miss them - only at the very end.</Typography>
+          </li>
+        </ul>
       </div>
 
       <div className='flex items-center py-4'>

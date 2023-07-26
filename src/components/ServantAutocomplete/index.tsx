@@ -17,11 +17,13 @@ function renderOption(
 ) {
   return (
     <Box component="li" {...props}>
-      <Typography>{option.name}</Typography>
+      <div>
+        <Typography>{option.name}</Typography>
       {
         option.alias != null && 
-          <Typography variant='caption'>&nbsp;(aka {option.alias})</Typography>
+          <Typography variant='caption'>(aka {option.alias})</Typography>
       }
+      </div>
     </Box>
   )
 }
@@ -60,7 +62,7 @@ export function ServantAutocomplete({
 
   return (
     <Autocomplete
-      sx={{width: 500}}
+      sx={{maxWidth: 500, width: "100%"}}
       options={AUTOCOMPLETE_OPTIONS}
       getOptionLabel={getOptionLabel}
       renderInput={renderInput}

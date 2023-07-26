@@ -6,7 +6,7 @@ export interface PageWrapperProps {
 
 export function PageWrapper({children}: PageWrapperProps) {
   return (
-    <main className="flex min-h-screen flex-col items-center">
+    <main className="flex min-h-screen flex-col items-center px-2">
       {children}
     </main>
   )

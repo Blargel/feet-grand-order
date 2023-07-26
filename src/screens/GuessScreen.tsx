@@ -50,7 +50,7 @@ export function GuessScreen() {
         </div>
       }
 
-      <div className='m-4'>
+      <div className='m-4 w-full flex justify-center'>
         <ServantAutocomplete value={servantGuess} onValueChange={setServantGuess} />
       </div>
 
