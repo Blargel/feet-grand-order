@@ -28,11 +28,11 @@ export function HeelPortrait({footId}: HeelPortraitProps) {
   }, [refresh])
 
   if (refresh) {
-    return <div className="w-[208px] h=[232px]"/>
+    return <div className="w-[208px] h-[232px]"/>
   }
 
   return (
-    <div className="relative">
+    <div className="relative w-[208px] h-[232px]">
       {
         loading &&
           (
