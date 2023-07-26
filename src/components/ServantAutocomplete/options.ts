@@ -8,11 +8,13 @@ function buildServantAutocompleteOptions() {
     mainOptions.push({
       name: servant.name,
       alias: null,
+      className: servant.class,
     })
     for (const alias of servant.aliases) {
       aliasOptions.push({
         name: servant.name,
-        alias: alias
+        alias: alias,
+        className: servant.class,
       })
     }
   }

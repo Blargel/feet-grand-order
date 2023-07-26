@@ -4,6 +4,8 @@ import { ServantAutocompleteOption } from './types'
 import { Dispatch, HTMLAttributes, SetStateAction, useCallback, useState } from 'react'
 import parse from 'autosuggest-highlight/parse';
 import match from 'autosuggest-highlight/match';
+import Image from 'next/image';
+import { ClassIcon } from '../ClassIcon';
 
 function getOptionLabel(option: ServantAutocompleteOption) {
   return option.alias ?? option.name
@@ -46,24 +48,29 @@ function renderOption(
 
   return (
     <Box component="li" {...props} key={option.alias ?? option.name}>
-      <div>
-        <Typography>
-          {
-            typeof name === 'string' ?
-              name :
-              boldHighlight(name)
-          }
-        </Typography>
-      {
-        alias != null && 
-          <Typography variant='caption'>
-            (aka{' '}
-              {
-                boldHighlight(alias)
-              }
-            )
+      <div className="flex items-center">
+        <div className="pr-2 pt-2">
+          <ClassIcon className={option.className}/>
+        </div>
+        <div>
+          <Typography>
+            {
+              typeof name === 'string' ?
+                name :
+                boldHighlight(name)
+            }
           </Typography>
-      }
+        {
+          alias != null && 
+            <Typography variant='caption'>
+              (aka{' '}
+                {
+                  boldHighlight(alias)
+                }
+              )
+            </Typography>
+        }
+        </div>
       </div>
     </Box>
   )
