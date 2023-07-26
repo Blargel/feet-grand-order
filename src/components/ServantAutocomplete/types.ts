@@ -1,7 +1,7 @@
-import type { ServantClass } from "@/servants"
+import type { ServantClass } from "@/servants";
 
 export interface ServantAutocompleteOption {
-  name: string
-  alias: string | null
-  servantClass: ServantClass
+  name: string;
+  alias: string | null;
+  servantClass: ServantClass;
 }

@@ -28,6 +28,7 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
-    "@types/autosuggest-highlight": "^3.2.0"
+    "@types/autosuggest-highlight": "^3.2.0",
+    "prettier": "3.0.0"
   }
 }

@@ -5,7 +5,7 @@ export interface ClassIconProps {
   servantClass: ServantClass;
 }
 
-export function ClassIcon({servantClass}: ClassIconProps) {
+export function ClassIcon({ servantClass }: ClassIconProps) {
   return (
     <Image
       src={`/class/${servantClass}.png`}
@@ -13,5 +13,5 @@ export function ClassIcon({servantClass}: ClassIconProps) {
       width={35}
       height={35}
     />
-  )
+  );
 }

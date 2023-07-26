@@ -1,13 +1,13 @@
-import { ReactNode } from "react"
+import { ReactNode } from "react";
 
 export interface PageWrapperProps {
-  children?: ReactNode
+  children?: ReactNode;
 }
 
-export function PageWrapper({children}: PageWrapperProps) {
+export function PageWrapper({ children }: PageWrapperProps) {
   return (
     <main className="flex min-h-screen flex-col items-center px-2">
       {children}
     </main>
-  )
+  );
 }

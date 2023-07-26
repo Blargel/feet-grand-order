@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from "next/image";
 
 export function MainLogo() {
   return (
@@ -11,5 +11,5 @@ export function MainLogo() {
         priority
       />
     </div>
-  )
+  );
 }

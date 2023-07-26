@@ -1,3 +1,3 @@
-export * from './GuessScreen'
-export * from './ResultsScreen'
-export * from './TitleScreen'
+export * from "./GuessScreen";
+export * from "./ResultsScreen";
+export * from "./TitleScreen";

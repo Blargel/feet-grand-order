@@ -1,7 +1,7 @@
 import type { ServantData } from "@/servants";
 import type { Dispatch, SetStateAction } from "react";
 
-export type GameScreenName = 'title' | 'guess' | 'results'
+export type GameScreenName = "title" | "guess" | "results";
 
 export interface GameContextValue {
   // game state
@@ -13,7 +13,7 @@ export interface GameContextValue {
 
   // settings
   naOnly: boolean;
-  setNaOnly: Dispatch<SetStateAction<boolean>>
+  setNaOnly: Dispatch<SetStateAction<boolean>>;
 
   // functions
   goToScreen: (screen: GameScreenName) => void;
