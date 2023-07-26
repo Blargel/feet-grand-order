@@ -338,7 +338,7 @@ export const SERVANTS: ServantData[] = [
   {
     name: "Medusa (Saber)",
     aliases: [],
-    footId: 100000,
+    footId: 105600,
     class: 'saber',
     inNA: false,
   },
