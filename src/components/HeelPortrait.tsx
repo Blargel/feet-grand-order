@@ -10,7 +10,7 @@ export function HeelPortrait({footId}: HeelPortraitProps) {
   const [refresh, setRefresh] = useState(false)
   const [loading, setLoading] = useState(true)
 
-  const handleLoadComplete = useCallback(() => {
+  const handleLoadingComplete = useCallback(() => {
     setLoading(false)
   }, [])
 
@@ -18,37 +18,35 @@ export function HeelPortrait({footId}: HeelPortraitProps) {
   // when loading a new image
   useEffect(() => {
     setRefresh(true)
-    setLoading(true)
   }, [footId])
 
   useEffect(() => {
     if (refresh) {
+      setLoading(true)
       setRefresh(false)
     }
   }, [refresh])
 
-  if (refresh) {
-    return <div className="w-[208px] h-[232px]"/>
-  }
-
   return (
     <div className="relative w-[208px] h-[232px]">
+      <div className="absolute inset-0 flex justify-center items-center">
+        {
+          loading && <CircularProgress />
+        }
+      </div>
+
       {
-        loading &&
-          (
-            <div className="absolute inset-0 flex justify-center items-center">
-              <CircularProgress />
-            </div>
-          )
+        !refresh && (
+          <Image
+            src={`/feet/${footId}.png`}
+            alt="Someone's foot?"
+            width={208}
+            height={232}
+            onLoadingComplete={handleLoadingComplete}
+            priority
+          />
+        )
       }
-      <Image
-        src={`/feet/${footId}.png`}
-        alt="Someone's foot?"
-        width={208}
-        height={232}
-        onLoadingComplete={handleLoadComplete}
-        priority
-      />
     </div>
   )
 }
