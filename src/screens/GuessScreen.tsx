@@ -41,7 +41,7 @@ export function GuessScreen() {
       {mostRecentGuess != null && (
         <div className="mt-4">
           <Typography color="error" variant="body2" display="inline">
-            Sorry, the guess
+            Sorry,
           </Typography>
           <Typography color="error" variant="subtitle2" display="inline">
             {" " + mostRecentGuess + " "}

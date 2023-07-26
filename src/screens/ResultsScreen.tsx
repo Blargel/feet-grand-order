@@ -57,27 +57,33 @@ export function ResultsScreen() {
         {detailedResultsRows.map((row) => (
           <div
             key={row.name}
-            className="flex-none flex flex-col items-center justify-center p-6"
+            className="flex-none flex flex-col items-center justify-center p-6 w-[208px]"
           >
             <HeelPortrait footId={row.footId} />
-            <Typography variant="body2">Correct answer:</Typography>
-            <Typography variant="body2">{row.name}</Typography>
-            <Typography variant="body2">Your answers:</Typography>
-            {row.guesses.length > 0 ? (
-              row.guesses.map((guess, index) => (
-                <Typography
-                  key={index}
-                  variant="body2"
-                  color={row.name === guess ? "green" : "red"}
-                >
-                  {guess}
-                </Typography>
-              ))
-            ) : (
-              <Typography variant="body2" color="gray">
-                No guesses
+            <Typography variant="body1" align="center">
+              {row.name}
+            </Typography>
+            <div className="mt-4">
+              <Typography variant="body2" align="center">
+                Your answers:
               </Typography>
-            )}
+              {row.guesses.length > 0 ? (
+                row.guesses.map((guess, index) => (
+                  <Typography
+                    key={index}
+                    variant="body2"
+                    align="center"
+                    color={row.name === guess ? "green" : "red"}
+                  >
+                    {guess}
+                  </Typography>
+                ))
+              ) : (
+                <Typography variant="body2" align="center" color="gray">
+                  Skipped
+                </Typography>
+              )}
+            </div>
           </div>
         ))}
       </div>
