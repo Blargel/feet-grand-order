@@ -1,7 +1,9 @@
-import { Autocomplete, AutocompleteRenderInputParams, Box, TextField, Typography } from '@mui/material'
+import { Autocomplete, AutocompleteRenderInputParams, AutocompleteRenderOptionState, Box, TextField, Typography } from '@mui/material'
 import { AUTOCOMPLETE_OPTIONS } from './options'
 import { ServantAutocompleteOption } from './types'
 import { Dispatch, HTMLAttributes, SetStateAction, useCallback, useState } from 'react'
+import parse from 'autosuggest-highlight/parse';
+import match from 'autosuggest-highlight/match';
 
 function getOptionLabel(option: ServantAutocompleteOption) {
   return option.alias ?? option.name
@@ -11,17 +13,56 @@ function renderInput(props: AutocompleteRenderInputParams) {
   return <TextField {...props} label="Choose a servant" />
 }
 
+function boldHighlight(parts: { text: string, highlight: boolean }[]) {
+  return parts.map((part, index) => (
+    <span
+      key={index}
+      style={{
+        fontWeight: part.highlight ? 700 : 400,
+      }}
+    >
+      {part.text}
+    </span>
+  ))
+}
+
 function renderOption(
   props: HTMLAttributes<HTMLLIElement>,
   option: ServantAutocompleteOption,
+  { inputValue }: AutocompleteRenderOptionState,
 ) {
+  let name: string | { text: string, highlight: boolean }[];
+  let alias: { text: string, highlight: boolean }[] | null;
+
+  if (option.alias == null) {
+    const matches = match(option.name, inputValue, { insideWords: true });
+    name = parse(option.name, matches);
+    alias = null
+  } else {
+    const matches = match(option.alias, inputValue, { insideWords: true });
+    name = option.name
+    alias = parse(option.alias, matches)
+  }
+
   return (
     <Box component="li" {...props}>
       <div>
-        <Typography>{option.name}</Typography>
+        <Typography>
+          {
+            typeof name === 'string' ?
+              name :
+              boldHighlight(name)
+          }
+        </Typography>
       {
-        option.alias != null && 
-          <Typography variant='caption'>(aka {option.alias})</Typography>
+        alias != null && 
+          <Typography variant='caption'>
+            (aka{' '}
+              {
+                boldHighlight(alias)
+              }
+            )
+          </Typography>
       }
       </div>
     </Box>
