@@ -28,6 +28,13 @@ function renderOption(
   )
 }
 
+function isOptionEqualToValue(
+  option: ServantAutocompleteOption,
+  value: ServantAutocompleteOption,
+) {
+  return option.name === value.name && value.alias == null
+}
+
 export * from './types'
 
 export interface ServantAutocompleteProps {
@@ -67,6 +74,7 @@ export function ServantAutocomplete({
       getOptionLabel={getOptionLabel}
       renderInput={renderInput}
       renderOption={renderOption}
+      isOptionEqualToValue={isOptionEqualToValue}
 
       value={value}
       onChange={handleChange}
