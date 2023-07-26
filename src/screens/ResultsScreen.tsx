@@ -43,7 +43,7 @@ export function ResultsScreen() {
       </div>
 
       <div className='mt-20'>
-        <Typography variant='h3'>
+        <Typography variant='h3' align='center'>
           Detailed results
         </Typography>
       </div>
