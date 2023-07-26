@@ -26,7 +26,7 @@ export function ResultsScreen() {
   return (
     <PageWrapper>
       <div className='flex flex-col my-40 items-center'>
-        <Typography variant='h2'>
+        <Typography variant='h2' align='center'>
           Final Score: {score}
         </Typography>
       </div>
@@ -49,47 +49,35 @@ export function ResultsScreen() {
       </div>
 
       <div className='mt-8'>
-        <TableContainer component={Paper}>
-          <Table sx={{minWidth: 800}}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Portrait</TableCell>
-                <TableCell>Correct Answer</TableCell>
-                <TableCell>Your Guesses</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {
-                detailedResultsRows.map((row) => (
-                  <TableRow key={row.name}>
-                    <TableCell><HeelPortrait footId={row.footId} /></TableCell>
-                    <TableCell>
-                      <Typography variant='body2'>{row.name}</Typography>
-                    </TableCell>
-                    <TableCell>
-                      {
-                        row.guesses.length > 0 ?
-                          row.guesses.map((guess, index) => (
-                            <Typography
-                              key={index}
-                              variant='body2'
-                              color={row.name === guess ? 'green' : 'red'}
-                            >
-                              {guess}
-                            </Typography>
-                          ))
-                        :
-                          <Typography variant='body2' color='gray'>
-                            No guesses
-                          </Typography>
-                      }
-                    </TableCell>
-                  </TableRow>
-                ))
-              }
-            </TableBody>
-          </Table>
-        </TableContainer>
+        {
+          detailedResultsRows.map((row) => (
+            <div key={row.name} className="flex flex-col items-center justify-center py-4">
+              <HeelPortrait footId={row.footId} />
+              <Typography variant='body2'>
+                Correct answer: {row.name}
+              </Typography>
+              <Typography variant='body2'>
+                Your answers:
+              </Typography>
+                {
+                  row.guesses.length > 0 ?
+                    row.guesses.map((guess, index) => (
+                      <Typography
+                        key={index}
+                        variant='body2'
+                        color={row.name === guess ? 'green' : 'red'}
+                      >
+                        {guess}
+                      </Typography>
+                    ))
+                  :
+                    <Typography variant='body2' color='gray'>
+                      No guesses
+                    </Typography>
+                }
+            </div>
+          ))
+        }
       </div>
     </PageWrapper>
   )

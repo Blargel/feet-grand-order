@@ -35,7 +35,7 @@ export function GuessScreen() {
           Score: {score}
         </Typography>
         <Typography variant="subtitle1">
-          Picture {index + 1} of {servants.length}
+          Portrait {index + 1} of {servants.length}
         </Typography>
       </div>
 
