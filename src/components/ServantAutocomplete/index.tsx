@@ -45,7 +45,7 @@ function renderOption(
   }
 
   return (
-    <Box component="li" {...props}>
+    <Box component="li" {...props} key={option.alias ?? option.name}>
       <div>
         <Typography>
           {
