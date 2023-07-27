@@ -4,7 +4,8 @@ export type ServantClass =
   | "lancer"
   | "rider"
   | "caster"
-  | "assassin";
+  | "assassin"
+  | "berserker";
 
 export interface ServantData {
   name: string;
