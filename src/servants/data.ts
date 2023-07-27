@@ -237,7 +237,7 @@ export const SERVANTS: ServantData[] = [
     aliases: [],
     footId: 104300,
     servantClass: "saber",
-    inNa: true,
+    inNa: false,
   },
   {
     name: "Saito Hajime",
