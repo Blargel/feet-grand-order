@@ -499,7 +499,7 @@ export const SERVANTS: ServantData[] = [
     inNa: true,
   },
   {
-    name: "Helena Blavatsky",
+    name: "Helena Blavatsky (Archer)",
     aliases: ["Summer Helena"],
     footId: 202800,
     servantClass: "archer",
