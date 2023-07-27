@@ -1521,8 +1521,8 @@ export const SERVANTS: ServantData[] = [
     inNa: true,
   },
   {
-    name: "Altria Caster",
-    aliases: ["Artoria Caster", "Castoria"],
+    name: "Artoria Caster",
+    aliases: ["Altria Caster", "Castoria"],
     footId: 504500,
     servantClass: "caster",
     inNa: true,
@@ -1732,7 +1732,7 @@ export const SERVANTS: ServantData[] = [
   },
   {
     name: "Nitocris (Assassin)",
-    aliases: ["Summer Nitocris", "Medjed", "Also Best Girl Don't @ Me"],
+    aliases: ["Summer Nitocris", "Medjed", "Best Girl Again Don't @ Me"],
     footId: 602800,
     servantClass: "assassin",
     inNa: true,
@@ -2439,7 +2439,7 @@ export const SERVANTS: ServantData[] = [
   },
   {
     name: "Nitocris (Alter)",
-    aliases: ["Yet Another Best Girl Don't @ Me"],
+    aliases: ["Also Best Girl Don't @ Me"],
     footId: 1101500,
     servantClass: "avenger",
     inNa: false,
