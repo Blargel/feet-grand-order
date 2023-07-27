@@ -2475,7 +2475,7 @@ export const SERVANTS: ServantData[] = [
   {
     name: "Archetype: Earth",
     aliases: ["Arcueid Brunestud"],
-    footId: 999999999,
+    footId: 2300500,
     servantClass: "moon-cancer",
     inNa: false,
   },
@@ -2531,7 +2531,7 @@ export const SERVANTS: ServantData[] = [
   {
     name: "Mysterious Idol X (Alter)",
     aliases: ["MIXA"],
-    footId: 999999999,
+    footId: 2500800,
     servantClass: "foreigner",
     inNa: true,
   },
