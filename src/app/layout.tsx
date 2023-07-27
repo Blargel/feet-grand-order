@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Feet/Grand Order",
     type: "website",
-    images: [{ url: "/feet-grand-order-logo.png", width: 551, height: 248 }],
+    images: [{ url: "/feet-grand-order-icon.png", width: 128, height: 128 }],
     url: "https://feet-go.blargel.com/",
     description: "The degenerate FGO feet identification game",
   },
