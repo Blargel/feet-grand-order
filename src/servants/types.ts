@@ -5,7 +5,15 @@ export type ServantClass =
   | "rider"
   | "caster"
   | "assassin"
-  | "berserker";
+  | "berserker"
+  | "shielder"
+  | "ruler"
+  | "alter-ego"
+  | "avenger"
+  | "moon-cancer"
+  | "foreigner"
+  | "pretender"
+  | "beast";
 
 export interface ServantData {
   name: string;
