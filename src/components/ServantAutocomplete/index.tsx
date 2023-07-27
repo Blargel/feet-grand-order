@@ -185,6 +185,8 @@ const StyledPopper = styled(Popper)({
   },
 });
 
+export * from './types'
+
 export interface ServantAutocompleteProps {
   value: ServantAutocompleteOption | null;
   onValueChange: Dispatch<SetStateAction<ServantAutocompleteOption | null>>;
