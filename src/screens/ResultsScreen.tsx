@@ -1,16 +1,6 @@
 import { HeelPortrait, PageWrapper } from "@/components";
 import { useGameContext } from "@/contexts";
-import {
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { useCallback } from "react";
 
 export function ResultsScreen() {
