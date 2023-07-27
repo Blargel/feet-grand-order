@@ -1,4 +1,10 @@
-export type ServantClass = "saber" | "archer" | "lancer" | "rider" | "caster";
+export type ServantClass =
+  | "saber"
+  | "archer"
+  | "lancer"
+  | "rider"
+  | "caster"
+  | "assassin";
 
 export interface ServantData {
   name: string;
