@@ -1,4 +1,4 @@
-export type ServantClass = "saber" | "archer" | "lancer" | "rider";
+export type ServantClass = "saber" | "archer" | "lancer" | "rider" | "caster";
 
 export interface ServantData {
   name: string;
