@@ -1,41 +1,64 @@
-import {
-  Autocomplete,
+import TextField from "@mui/material/TextField";
+import Autocomplete, {
   AutocompleteRenderInputParams,
   AutocompleteRenderOptionState,
-  Box,
-  TextField,
-  Typography,
-} from "@mui/material";
+  autocompleteClasses,
+} from "@mui/material/Autocomplete";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import Popper from "@mui/material/Popper";
+import { useTheme, styled } from "@mui/material/styles";
+import { VariableSizeList, ListChildComponentProps } from "react-window";
+import Typography from "@mui/material/Typography";
 import { AUTOCOMPLETE_OPTIONS } from "./options";
 import { ServantAutocompleteOption } from "./types";
 import {
   Dispatch,
   HTMLAttributes,
+  ReactNode,
   SetStateAction,
-  cloneElement,
+  createContext,
   forwardRef,
   useCallback,
+  useContext,
+  useEffect,
+  useRef,
   useState,
 } from "react";
-import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
-import {
-  AutoSizer,
-  CellMeasurer,
-  CellMeasurerCache,
-  List,
-} from "react-virtualized";
+import parse from "autosuggest-highlight/parse";
+import { Box } from "@mui/material";
 import { ClassIcon } from "../ClassIcon";
+
+const LISTBOX_PADDING = 0; // px
 
 function getOptionLabel(option: ServantAutocompleteOption) {
   return option.alias ?? option.name;
+}
+
+function isOptionEqualToValue(
+  option: ServantAutocompleteOption,
+  value: ServantAutocompleteOption,
+) {
+  return option.name === value.name && value.alias == null;
 }
 
 function renderInput(props: AutocompleteRenderInputParams) {
   return <TextField {...props} label="Choose a servant" />;
 }
 
-function boldHighlight(parts: { text: string; highlight: boolean }[]) {
+function renderOption(
+  props: HTMLAttributes<HTMLLIElement>,
+  option: ServantAutocompleteOption,
+  state: AutocompleteRenderOptionState,
+) {
+  return [props, option, state.inputValue] as ReactNode;
+}
+
+function boldHighlight(parts: { text: string; highlight: boolean }[] | string) {
+  if (typeof parts === "string") {
+    return parts;
+  }
+
   return parts.map((part, index) => (
     <span
       key={index}
@@ -48,11 +71,16 @@ function boldHighlight(parts: { text: string; highlight: boolean }[]) {
   ));
 }
 
-function renderOption(
-  props: HTMLAttributes<HTMLLIElement>,
-  option: ServantAutocompleteOption,
-  { inputValue }: AutocompleteRenderOptionState,
-) {
+type ItemData = [
+  HTMLAttributes<HTMLLIElement> & { key: string },
+  ServantAutocompleteOption,
+  string,
+];
+
+function renderRow(props: ListChildComponentProps<ItemData[]>) {
+  const { data, index, style } = props;
+  const [liProps, option, inputValue] = data[index];
+
   let name: string | { text: string; highlight: boolean }[];
   let alias: { text: string; highlight: boolean }[] | null;
 
@@ -67,17 +95,17 @@ function renderOption(
   }
 
   return (
-    <Box component="li" {...props} key={option.alias ?? option.name}>
+    <Box component="li" {...liProps} style={style} key={liProps.key}>
       <div className="flex items-center">
         <div className="pr-2 pt-2">
           <ClassIcon servantClass={option.servantClass} />
         </div>
         <div>
-          <Typography>
+          <Typography textOverflow="clip" whiteSpace="nowrap" variant="body2">
             {typeof name === "string" ? name : boldHighlight(name)}
           </Typography>
           {alias != null && (
-            <Typography variant="caption">
+            <Typography textOverflow="clip" whiteSpace="nowrap" variant="caption">
               (aka {boldHighlight(alias)})
             </Typography>
           )}
@@ -87,70 +115,75 @@ function renderOption(
   );
 }
 
-const cellMeasurerCache = new CellMeasurerCache({
-  defaultHeight: 45,
-  fixedWidth: true,
-});
+const OuterElementContext = createContext({});
 
+const OuterElementType = forwardRef<HTMLDivElement>(
+  function OuterElementType(props, ref) {
+    const outerProps = useContext(OuterElementContext);
+    return <div ref={ref} {...props} {...outerProps} />;
+  },
+);
+
+function useResetCache(data: any) {
+  const ref = useRef<VariableSizeList>(null);
+  useEffect(() => {
+    if (ref.current != null) {
+      ref.current.resetAfterIndex(0, true);
+    }
+  }, [data]);
+  return ref;
+}
+
+// Adapter for react-window
 const ListboxComponent = forwardRef<
   HTMLDivElement,
-  HTMLAttributes<HTMLDivElement>
+  HTMLAttributes<HTMLElement>
 >(function ListboxComponent(props, ref) {
-  const { children, role, ...other } = props;
-  const itemCount = Array.isArray(children) ? children.length : 0;
+  const { children, ...other } = props;
+  const itemData = children as ItemData[];
 
-  if (!Array.isArray(children)) {
-    return null;
-  }
+  const theme = useTheme();
+  const smUp = useMediaQuery(theme.breakpoints.up("sm"), {
+    noSsr: true,
+  });
+  const itemCount = itemData.length;
+
+  const getChildSize = (child: ItemData) => {
+    return child[1].alias == null ? 48 : 60
+  };
+
+  const gridRef = useResetCache(itemCount);
 
   return (
     <div ref={ref}>
-      <div {...other}>
-        <div className="h-[240px]">
-          <AutoSizer>
-            {({ height, width }) => (
-              <List
-                height={height}
-                width={width}
-                deferredMeasurementCache={cellMeasurerCache}
-                rowHeight={cellMeasurerCache.rowHeight}
-                overscanCount={5}
-                rowCount={itemCount}
-                rowRenderer={({ index, key, style, parent }) => (
-                  <CellMeasurer
-                    key={key}
-                    cache={cellMeasurerCache}
-                    columnIndex={0}
-                    parent={parent}
-                    rowIndex={index}
-                  >
-                    {({ registerChild }) => (
-                      <div ref={registerChild as any /* typing bug? */}>
-                        {cloneElement(children[index], {
-                          style: props.style,
-                        })}
-                      </div>
-                    )}
-                  </CellMeasurer>
-                )}
-                role={role}
-              />
-            )}
-          </AutoSizer>
-        </div>
-      </div>
+      <OuterElementContext.Provider value={other}>
+        <VariableSizeList
+          itemData={itemData}
+          height={300}
+          width="100%"
+          ref={gridRef}
+          outerElementType={OuterElementType}
+          innerElementType="ul"
+          itemSize={(index) => getChildSize(itemData[index])}
+          overscanCount={5}
+          itemCount={itemCount}
+        >
+          {renderRow}
+        </VariableSizeList>
+      </OuterElementContext.Provider>
     </div>
   );
 });
 
-function isOptionEqualToValue(
-  option: ServantAutocompleteOption,
-  value: ServantAutocompleteOption,
-) {
-  return option.name === value.name && value.alias == null;
-}
-
-export * from "./types";
+const StyledPopper = styled(Popper)({
+  [`& .${autocompleteClasses.listbox}`]: {
+    boxSizing: "border-box",
+    "& ul": {
+      padding: 0,
+      margin: 0,
+    },
+  },
+});
 
 export interface ServantAutocompleteProps {
   value: ServantAutocompleteOption | null;
@@ -185,13 +218,14 @@ export function ServantAutocomplete({
   return (
     <Autocomplete
       sx={{ maxWidth: 500, width: "100%" }}
+      disableListWrap
+      PopperComponent={StyledPopper}
+      ListboxComponent={ListboxComponent}
       options={AUTOCOMPLETE_OPTIONS}
       getOptionLabel={getOptionLabel}
-      disableListWrap
-      ListboxComponent={ListboxComponent}
+      isOptionEqualToValue={isOptionEqualToValue}
       renderInput={renderInput}
       renderOption={renderOption}
-      isOptionEqualToValue={isOptionEqualToValue}
       value={value}
       onChange={handleChange}
       inputValue={inputValue}

@@ -10,8 +10,8 @@ export function ClassIcon({ servantClass }: ClassIconProps) {
     <Image
       src={`/class/${servantClass}.png`}
       alt={servantClass}
-      width={35}
-      height={35}
+      width={30}
+      height={30}
     />
   );
 }
