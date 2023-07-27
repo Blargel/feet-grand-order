@@ -12,11 +12,19 @@ import {
   Dispatch,
   HTMLAttributes,
   SetStateAction,
+  cloneElement,
+  forwardRef,
   useCallback,
   useState,
 } from "react";
 import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
+import {
+  AutoSizer,
+  CellMeasurer,
+  CellMeasurerCache,
+  List,
+} from "react-virtualized";
 import { ClassIcon } from "../ClassIcon";
 
 function getOptionLabel(option: ServantAutocompleteOption) {
@@ -79,6 +87,62 @@ function renderOption(
   );
 }
 
+const cellMeasurerCache = new CellMeasurerCache({
+  defaultHeight: 45,
+  fixedWidth: true,
+});
+
+const ListboxComponent = forwardRef<
+  HTMLDivElement,
+  HTMLAttributes<HTMLDivElement>
+>(function ListboxComponent(props, ref) {
+  const { children, role, ...other } = props;
+  const itemCount = Array.isArray(children) ? children.length : 0;
+
+  if (!Array.isArray(children)) {
+    return null;
+  }
+
+  return (
+    <div ref={ref}>
+      <div {...other}>
+        <div className="h-[240px]">
+          <AutoSizer>
+            {({ height, width }) => (
+              <List
+                height={height}
+                width={width}
+                deferredMeasurementCache={cellMeasurerCache}
+                rowHeight={cellMeasurerCache.rowHeight}
+                overscanCount={5}
+                rowCount={itemCount}
+                rowRenderer={({ index, key, style, parent }) => (
+                  <CellMeasurer
+                    key={key}
+                    cache={cellMeasurerCache}
+                    columnIndex={0}
+                    parent={parent}
+                    rowIndex={index}
+                  >
+                    {({ registerChild }) => (
+                      <div ref={registerChild as any /* typing bug? */}>
+                        {cloneElement(children[index], {
+                          style: props.style,
+                        })}
+                      </div>
+                    )}
+                  </CellMeasurer>
+                )}
+                role={role}
+              />
+            )}
+          </AutoSizer>
+        </div>
+      </div>
+    </div>
+  );
+});
+
 function isOptionEqualToValue(
   option: ServantAutocompleteOption,
   value: ServantAutocompleteOption,
@@ -123,6 +187,8 @@ export function ServantAutocomplete({
       sx={{ maxWidth: 500, width: "100%" }}
       options={AUTOCOMPLETE_OPTIONS}
       getOptionLabel={getOptionLabel}
+      disableListWrap
+      ListboxComponent={ListboxComponent}
       renderInput={renderInput}
       renderOption={renderOption}
       isOptionEqualToValue={isOptionEqualToValue}
