@@ -3,14 +3,16 @@
 import { PropsWithChildren, useCallback, useMemo, useState } from "react";
 import { GameContext } from "./GameContext";
 import type { GameContextValue, Guess } from "./types";
-import { Servant, getRandomServants } from "@/gameData";
+import { NiceClass, Servant, getRandomServants } from "@/gameData";
 
 export interface GameProviderProps {
   allServants: Servant[];
+  classes: NiceClass[];
 }
 
 export function GameProvider({
   allServants,
+  classes,
   children,
 }: PropsWithChildren<GameProviderProps>) {
   const [screen, setScreen] = useState<GameContextValue["screen"]>("title");
@@ -76,6 +78,7 @@ export function GameProvider({
   const value: GameContextValue = useMemo(
     () => ({
       allServants: allServants,
+      classes,
       screen,
       servants,
       guesses,
@@ -90,6 +93,7 @@ export function GameProvider({
     }),
     [
       allServants,
+      classes,
       screen,
       servants,
       guesses,

@@ -4,6 +4,7 @@ import {
   ServantAutocomplete,
   ServantAutocompleteOption,
 } from "@/components";
+import { ClassFilter } from "@/components/ClassFilter";
 import { useGameContext } from "@/contexts";
 import { Button, Typography } from "@mui/material";
 import { useCallback, useState } from "react";
@@ -16,6 +17,8 @@ export function GuessScreen() {
   const currentGuesses = guesses[index];
   const mostRecentGuess =
     currentGuesses[currentGuesses.length - 1]?.servantName;
+
+  const [classFilter, setClassFilter] = useState<number[]>([]);
 
   const [servantGuess, setServantGuess] =
     useState<ServantAutocompleteOption | null>(null);
@@ -52,10 +55,12 @@ export function GuessScreen() {
         </div>
       )}
 
-      <div className="m-4 w-full flex justify-center">
+      <div className="m-4 w-full flex flex-col items-center">
+        <ClassFilter onClassFilterChanged={setClassFilter} />
         <ServantAutocomplete
           value={servantGuess}
           onValueChange={setServantGuess}
+          classFilter={classFilter}
         />
       </div>
 

@@ -1,4 +1,4 @@
-import type { Servant } from "@/gameData";
+import type { NiceClass, Servant } from "@/gameData";
 import type { Dispatch, SetStateAction } from "react";
 
 export type GameScreenName = "title" | "guess" | "results";
@@ -9,8 +9,11 @@ export interface Guess {
 }
 
 export interface GameContextValue {
-  // game state
+  // game data
   allServants: Servant[];
+  classes: NiceClass[];
+
+  // game state
   screen: GameScreenName;
   servants: Servant[];
   guesses: Guess[][];

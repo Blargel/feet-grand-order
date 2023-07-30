@@ -1,4 +1,6 @@
 import {
+  NiceClass,
+  fetchClasses,
   fetchHeelPortraits,
   fetchServantsJP,
   fetchServantsNA,
@@ -7,11 +9,12 @@ import type { ServantBasic } from "@atlasacademy/api-connector/dist/Schema/Serva
 import type { Servant } from "./types";
 import { ALIASES } from "./aliases";
 
-export async function compileServantData(): Promise<Servant[]> {
-  const [heelPortraits, naServants, jpServants] = await Promise.all([
+export async function compileGameData(): Promise<[Servant[], NiceClass[]]> {
+  const [heelPortraits, naServants, jpServants, classes] = await Promise.all([
     fetchHeelPortraits(),
     fetchServantsNA(),
     fetchServantsJP(),
+    fetchClasses(),
   ]);
 
   // Remove the extra summer valks
@@ -61,7 +64,7 @@ export async function compileServantData(): Promise<Servant[]> {
     });
   }
 
-  return servantData;
+  return [servantData, classes];
 }
 
 export function getRandomServants(
