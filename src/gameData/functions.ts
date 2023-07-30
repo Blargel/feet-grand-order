@@ -19,7 +19,7 @@ export async function compileServantData(): Promise<Servant[]> {
     (portrait) => portrait.id !== 604400 && portrait.id !== 604500,
   );
 
-  return heelPortraits.map((portrait) => {
+  return filteredHeelPortraits.map((portrait) => {
     let servant: ServantBasic | undefined = naServants.find(
       (servant) => servant.id === portrait.id,
     );
