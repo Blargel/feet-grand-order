@@ -1,9 +1,18 @@
+"use client";
+
 import { PropsWithChildren, useCallback, useMemo, useState } from "react";
 import { GameContext } from "./GameContext";
-import { GameContextValue } from "./types";
-import { getRandomServants } from "@/servants";
+import type { GameContextValue, Guess } from "./types";
+import { Servant, getRandomServants } from "@/gameData";
 
-export function GameProvider(props: PropsWithChildren) {
+export interface GameProviderProps {
+  allServants: Servant[];
+}
+
+export function GameProvider({
+  allServants,
+  children,
+}: PropsWithChildren<GameProviderProps>) {
   const [screen, setScreen] = useState<GameContextValue["screen"]>("title");
   const [servants, setServants] = useState<GameContextValue["servants"]>([]);
   const [guesses, setGuesses] = useState<GameContextValue["guesses"]>([]);
@@ -22,12 +31,12 @@ export function GameProvider(props: PropsWithChildren) {
   const startGame: GameContextValue["startGame"] = useCallback(
     (amount) => {
       goToScreen("guess");
-      setServants(getRandomServants(amount, naOnly));
+      setServants(getRandomServants(allServants, amount, naOnly));
       setGuesses(new Array(amount).fill([]));
       setIndex(0);
       setScore(0);
     },
-    [goToScreen, naOnly],
+    [allServants, goToScreen, naOnly],
   );
 
   const skipServant: GameContextValue["skipServant"] = useCallback(() => {
@@ -39,11 +48,20 @@ export function GameProvider(props: PropsWithChildren) {
   }, [goToScreen, index, servants.length]);
 
   const guessServant: GameContextValue["guessServant"] = useCallback(
-    (servant: string) => {
+    (servantId) => {
+      const servant = allServants.find((servant) => servant.id === servantId);
+      if (servant == null) {
+        return;
+      }
+
       setGuesses((prevGuesses) => {
         const newGuesses = [...prevGuesses];
-        newGuesses[index] = [...newGuesses[index], servant];
-        if (servant === servants[index]?.name) {
+        const newGuess: Guess = {
+          servantId: servant.id,
+          servantName: servant.servantName,
+        };
+        newGuesses[index] = [...newGuesses[index], newGuess];
+        if (servantId === servants[index]?.id) {
           setScore((prevScore) => prevScore + 5);
           skipServant();
         } else {
@@ -52,11 +70,12 @@ export function GameProvider(props: PropsWithChildren) {
         return newGuesses;
       });
     },
-    [index, servants, skipServant],
+    [allServants, index, servants, skipServant],
   );
 
   const value: GameContextValue = useMemo(
     () => ({
+      allServants: allServants,
       screen,
       servants,
       guesses,
@@ -70,6 +89,7 @@ export function GameProvider(props: PropsWithChildren) {
       guessServant,
     }),
     [
+      allServants,
       screen,
       servants,
       guesses,
@@ -84,5 +104,5 @@ export function GameProvider(props: PropsWithChildren) {
     ],
   );
 
-  return <GameContext.Provider value={value} {...props} />;
+  return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
 }

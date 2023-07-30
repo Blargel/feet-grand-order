@@ -1,3 +1,5 @@
+"use client";
+
 import { useGameContext } from "@/contexts";
 import { ResultsScreen, GuessScreen, TitleScreen } from "@/screens";
 

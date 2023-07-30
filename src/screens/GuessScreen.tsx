@@ -6,7 +6,6 @@ import {
 } from "@/components";
 import { useGameContext } from "@/contexts";
 import { Button, Typography } from "@mui/material";
-import Image from "next/image";
 import { useCallback, useState } from "react";
 
 export function GuessScreen() {
@@ -15,17 +14,18 @@ export function GuessScreen() {
 
   const currentServant = servants[index];
   const currentGuesses = guesses[index];
-  const mostRecentGuess = currentGuesses[currentGuesses.length - 1];
+  const mostRecentGuess =
+    currentGuesses[currentGuesses.length - 1]?.servantName;
 
   const [servantGuess, setServantGuess] =
     useState<ServantAutocompleteOption | null>(null);
 
   const handleGuess = useCallback(() => {
-    if (servantGuess?.name != null) {
-      guessServant(servantGuess?.name);
+    if (servantGuess?.id != null) {
+      guessServant(servantGuess.id);
       setServantGuess(null);
     }
-  }, [servantGuess?.name, guessServant]);
+  }, [servantGuess?.id, guessServant]);
 
   return (
     <PageWrapper>
@@ -36,7 +36,7 @@ export function GuessScreen() {
         </Typography>
       </div>
 
-      <HeelPortrait footId={currentServant.footId} />
+      <HeelPortrait url={currentServant.imageUrl} />
 
       {mostRecentGuess != null && (
         <div className="mt-4">

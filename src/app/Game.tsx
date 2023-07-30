@@ -1,11 +1,12 @@
-"use client";
-
 import { GameProvider } from "@/contexts";
 import { GameRouter } from "./GameRouter";
+import { compileServantData } from "@/gameData";
 
-export function Game() {
+export async function Game() {
+  const allServants = await compileServantData();
+
   return (
-    <GameProvider>
+    <GameProvider allServants={allServants}>
       <GameRouter />
     </GameProvider>
   );

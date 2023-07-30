@@ -9,7 +9,7 @@ import Popper from "@mui/material/Popper";
 import { useTheme, styled } from "@mui/material/styles";
 import { VariableSizeList, ListChildComponentProps } from "react-window";
 import Typography from "@mui/material/Typography";
-import { AUTOCOMPLETE_OPTIONS } from "./options";
+import { useAutocompleteOptions } from "./useAutocompleteOptions";
 import { ServantAutocompleteOption } from "./types";
 import {
   Dispatch,
@@ -29,8 +29,6 @@ import parse from "autosuggest-highlight/parse";
 import { Box } from "@mui/material";
 import { ClassIcon } from "../ClassIcon";
 
-const LISTBOX_PADDING = 0; // px
-
 function getOptionLabel(option: ServantAutocompleteOption) {
   return option.alias ?? option.name;
 }
@@ -39,7 +37,7 @@ function isOptionEqualToValue(
   option: ServantAutocompleteOption,
   value: ServantAutocompleteOption,
 ) {
-  return option.name === value.name && value.alias == null;
+  return option.id === value.id && value.alias == null;
 }
 
 function renderInput(props: AutocompleteRenderInputParams) {
@@ -98,14 +96,18 @@ function renderRow(props: ListChildComponentProps<ItemData[]>) {
     <Box component="li" {...liProps} style={style} key={liProps.key}>
       <div className="flex items-center">
         <div className="pr-2 pt-2">
-          <ClassIcon servantClass={option.servantClass} />
+          <ClassIcon classId={option.classId} />
         </div>
         <div>
           <Typography textOverflow="clip" whiteSpace="nowrap" variant="body2">
             {typeof name === "string" ? name : boldHighlight(name)}
           </Typography>
           {alias != null && (
-            <Typography textOverflow="clip" whiteSpace="nowrap" variant="caption">
+            <Typography
+              textOverflow="clip"
+              whiteSpace="nowrap"
+              variant="caption"
+            >
               (aka {boldHighlight(alias)})
             </Typography>
           )}
@@ -148,9 +150,19 @@ const ListboxComponent = forwardRef<
   });
   const itemCount = itemData.length;
 
-  const getChildSize = (child: ItemData) => {
-    return child[1].alias == null ? 48 : 60
-  };
+  const getChildSize = useCallback((child: ItemData) => {
+    return child[1].alias == null ? 48 : 60;
+  }, []);
+
+  const getHeight = useCallback(() => {
+    if (itemCount < 8) {
+      return Math.min(
+        itemData.map(getChildSize).reduce((a, b) => a + b, 0),
+        300,
+      );
+    }
+    return 300;
+  }, [getChildSize, itemCount, itemData]);
 
   const gridRef = useResetCache(itemCount);
 
@@ -159,7 +171,7 @@ const ListboxComponent = forwardRef<
       <OuterElementContext.Provider value={other}>
         <VariableSizeList
           itemData={itemData}
-          height={300}
+          height={getHeight()}
           width="100%"
           ref={gridRef}
           outerElementType={OuterElementType}
@@ -185,7 +197,7 @@ const StyledPopper = styled(Popper)({
   },
 });
 
-export * from './types'
+export * from "./types";
 
 export interface ServantAutocompleteProps {
   value: ServantAutocompleteOption | null;
@@ -196,6 +208,7 @@ export function ServantAutocomplete({
   value,
   onValueChange,
 }: ServantAutocompleteProps) {
+  const autocompleteOptions = useAutocompleteOptions();
   const [inputValue, setInputValue] = useState("");
 
   const handleChange = useCallback(
@@ -223,7 +236,7 @@ export function ServantAutocomplete({
       disableListWrap
       PopperComponent={StyledPopper}
       ListboxComponent={ListboxComponent}
-      options={AUTOCOMPLETE_OPTIONS}
+      options={autocompleteOptions}
       getOptionLabel={getOptionLabel}
       isOptionEqualToValue={isOptionEqualToValue}
       renderInput={renderInput}

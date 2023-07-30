@@ -8,8 +8,7 @@ export function ResultsScreen() {
 
   const detailedResultsRows = servants.map((servant, index) => {
     return {
-      name: servant.name,
-      footId: servant.footId,
+      servant,
       guesses: guesses[index],
     };
   });
@@ -46,12 +45,12 @@ export function ResultsScreen() {
       <div className="mt-8 flex flex-wrap justify-center items-start">
         {detailedResultsRows.map((row) => (
           <div
-            key={row.name}
+            key={row.servant.id}
             className="flex-none flex flex-col items-center justify-center p-6 w-[208px]"
           >
-            <HeelPortrait footId={row.footId} />
+            <HeelPortrait url={row.servant.imageUrl} />
             <Typography variant="body1" align="center">
-              {row.name}
+              {row.servant.servantName}
             </Typography>
             <div className="mt-4">
               <Typography variant="body2" align="center">
@@ -63,9 +62,9 @@ export function ResultsScreen() {
                     key={index}
                     variant="body2"
                     align="center"
-                    color={row.name === guess ? "green" : "red"}
+                    color={row.servant.id === guess.servantId ? "green" : "red"}
                   >
-                    {guess}
+                    {guess.servantName}
                   </Typography>
                 ))
               ) : (

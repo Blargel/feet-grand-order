@@ -1,13 +1,19 @@
-import type { ServantData } from "@/servants";
+import type { Servant } from "@/gameData";
 import type { Dispatch, SetStateAction } from "react";
 
 export type GameScreenName = "title" | "guess" | "results";
 
+export interface Guess {
+  servantId: number;
+  servantName: string;
+}
+
 export interface GameContextValue {
   // game state
+  allServants: Servant[];
   screen: GameScreenName;
-  servants: ServantData[];
-  guesses: string[][];
+  servants: Servant[];
+  guesses: Guess[][];
   index: number;
   score: number;
 
@@ -19,5 +25,5 @@ export interface GameContextValue {
   goToScreen: (screen: GameScreenName) => void;
   startGame: (amount: number) => void;
   skipServant: () => void;
-  guessServant: (servant: string) => void;
+  guessServant: (servantId: number) => void;
 }

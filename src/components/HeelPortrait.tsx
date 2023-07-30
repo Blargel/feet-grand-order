@@ -1,12 +1,14 @@
+"use client";
+
 import { CircularProgress } from "@mui/material";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
 export interface HeelPortraitProps {
-  footId: number;
+  url: string;
 }
 
-export function HeelPortrait({ footId }: HeelPortraitProps) {
+export function HeelPortrait({ url }: HeelPortraitProps) {
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -18,7 +20,7 @@ export function HeelPortrait({ footId }: HeelPortraitProps) {
   // when loading a new image
   useEffect(() => {
     setRefresh(true);
-  }, [footId]);
+  }, [url]);
 
   useEffect(() => {
     if (refresh) {
@@ -35,7 +37,7 @@ export function HeelPortrait({ footId }: HeelPortraitProps) {
 
       {!refresh && (
         <Image
-          src={`/feet/${footId}.png`}
+          src={url}
           alt="Someone's foot?"
           width={208}
           height={232}

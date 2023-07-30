@@ -1,4 +1,4 @@
-import Script from 'next/script'
+import Script from "next/script";
 import { Game } from "./Game";
 
 export default function Home() {
