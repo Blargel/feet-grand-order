@@ -19,11 +19,13 @@ export async function compileServantData(): Promise<Servant[]> {
     (portrait) => portrait.id !== 604400 && portrait.id !== 604500,
   );
 
-  return filteredHeelPortraits.map((portrait) => {
+  const servantData: Servant[] = [];
+  for (const portrait of heelPortraits) {
     let servant: ServantBasic | undefined = naServants.find(
       (servant) => servant.id === portrait.id,
     );
     let inNa: boolean = true;
+
     if (servant == null) {
       servant = jpServants.find((servant) => servant.id === portrait.id);
       inNa = false;
@@ -40,15 +42,26 @@ export async function compileServantData(): Promise<Servant[]> {
 
     const aliases = ALIASES[portrait.id]?.aliases ?? [];
 
-    return {
+    const nameConflict = servantData.find(
+      (existing) => existing.servantName === servantName,
+    );
+    if (nameConflict != null) {
+      console.warn(
+        `portraidId ${portrait.id} is using the name ${servantName} but that name is also being used by portraitId ${nameConflict.id}`,
+      );
+    }
+
+    servantData.push({
       id: portrait.id,
       imageUrl: portrait.image,
       servantName,
       classId: servant.classId,
       aliases,
       inNa,
-    };
-  });
+    });
+  }
+
+  return servantData;
 }
 
 export function getRandomServants(

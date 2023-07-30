@@ -1,5 +1,7 @@
 export const ALIASES: {
-  [servantId: number]: { nameOverride?: string; aliases: string[] };
+  [servantId: number]:
+    | { nameOverride?: string; aliases?: string[] }
+    | undefined;
 } = {
   100100: {
     nameOverride: "Artoria Pendragon",
@@ -13,32 +15,90 @@ export const ALIASES: {
     nameOverride: "Artoria Pendragon (Lily)",
     aliases: ["Altria Pendragon (Lily)"],
   },
-  103100: { aliases: ["Summer Frankenstein"] },
-  103400: { aliases: ["Summer Medb"] },
-  104000: { aliases: ["Summer Hokusai", "Summer Oei"] },
-  104500: { aliases: ["Summer Tomoe"] },
-  105000: { aliases: ["Fairy Knight Gawain", "Tam Lin Gawain"] },
-  105100: { aliases: ["Summer Okitan"] },
-  105400: { aliases: ["Summer Gareth"] },
-  200900: { aliases: ["Artemis"] },
-  201600: { aliases: ["Demiya"] },
-  201800: { aliases: ["Kid Gil"] },
-  202100: { aliases: ["Archer of Inferno"] },
-  202200: { aliases: ["Santa Altera", "Santera"] },
-  202300: { aliases: ["Archer of Shinjuku"] },
-  202500: { aliases: ["Summer Anne & Mary"] },
+  102000: {
+    nameOverride: "Lancelot (Saber)",
+  },
+  102200: {
+    nameOverride: "Gilles de Rais (Saber)",
+  },
+  103100: {
+    aliases: ["Summer Frankenstein"],
+  },
+  103400: {
+    aliases: ["Summer Medb"],
+  },
+  103500: {
+    nameOverride: "Diarmuid Ua Duibhne (Saber)",
+  },
+  104000: {
+    aliases: ["Summer Hokusai", "Summer Oei"],
+  },
+  104500: {
+    aliases: ["Summer Tomoe"],
+  },
+  105000: {
+    aliases: ["Fairy Knight Gawain", "Tam Lin Gawain"],
+  },
+  105100: {
+    nameOverride: "Okita Souji (Saber Alter)",
+    aliases: ["Summer Okitan"],
+  },
+  105400: {
+    nameOverride: "Gareth (Saber)",
+    aliases: ["Summer Gareth"],
+  },
+  105600: {
+    nameOverride: "Medusa (Saber)",
+  },
+  200900: {
+    aliases: ["Artemis"],
+  },
+  201600: {
+    aliases: ["Demiya"],
+  },
+  201800: {
+    aliases: ["Kid Gil"],
+  },
+  202100: {
+    aliases: ["Archer of Inferno"],
+  },
+  202200: {
+    aliases: ["Santa Altera", "Santera"],
+  },
+  202300: {
+    aliases: ["Archer of Shinjuku"],
+  },
+  202500: {
+    aliases: ["Summer Anne & Mary"],
+  },
   202600: {
     nameOverride: "Artoria Pendragon (Archer)",
     aliases: ["Altria Pendragon (Archer)", "Archuria", "Squirtoria"],
   },
-  202700: { aliases: ["Kuro"] },
-  202800: { aliases: ["Summer Helena"] },
-  203200: { aliases: ["Summer Jeanne"] },
-  203600: { aliases: ["Summer Osakabehime", "Summer Okki", "Summer Batty"] },
-  204000: { aliases: ["Nagiko"] },
-  204200: { aliases: ["Summer Illya"] },
-  204300: { aliases: ["Fairy Knight Tristan", "Tam Lin Tristan"] },
-  204400: { aliases: ["Summer Anastasia"] },
+  202700: {
+    aliases: ["Kuro"],
+  },
+  202800: {
+    aliases: ["Summer Helena"],
+  },
+  203200: {
+    aliases: ["Summer Jeanne"],
+  },
+  203600: {
+    aliases: ["Summer Osakabehime", "Summer Okki", "Summer Batty"],
+  },
+  204000: {
+    aliases: ["Nagiko"],
+  },
+  204200: {
+    aliases: ["Summer Illya"],
+  },
+  204300: {
+    aliases: ["Fairy Knight Tristan", "Tam Lin Tristan"],
+  },
+  204400: {
+    aliases: ["Summer Anastasia"],
+  },
   301900: {
     nameOverride: "Artoria Pendragon (Lancer Alter)",
     aliases: ["Altria Pendragon (Lancer Alter)", "Lalter"],
@@ -54,6 +114,7 @@ export const ALIASES: {
     aliases: ["Summer Kiyohime"],
   },
   302700: {
+    nameOverride: "Medusa (Lancer)",
     aliases: ["Ana", "Medusa Lily"],
   },
   302900: {
@@ -73,6 +134,9 @@ export const ALIASES: {
   },
   304800: {
     aliases: ["Fairy Knight Lancelot", "Tam Lin Lancelot"],
+  },
+  305000: {
+    nameOverride: "Sakamoto Ryouma (Lancer)",
   },
   400800: {
     aliases: ["Blackbeard"],
@@ -105,13 +169,20 @@ export const ALIASES: {
     aliases: ["Habbycat", "Habenyan"],
   },
   404500: {
+    nameOverride: "Caenis (Rider)",
     aliases: ["Summer Caenis"],
   },
   501200: {
     aliases: ["Best Girl Don't @ Me"],
   },
+  501800: {
+    nameOverride: "Gilgamesh (Caster)",
+  },
   501900: {
     aliases: ["Waver Velvet"],
+  },
+  502100: {
+    nameOverride: "Cú Chulainn (Caster)",
   },
   502700: {
     aliases: ["Summer Marie"],
@@ -136,9 +207,11 @@ export const ALIASES: {
     aliases: ["Altria Caster", "Castoria"],
   },
   504800: {
+    nameOverride: "Charlotte Corday (Caster)",
     aliases: ["Summer Charlotte"],
   },
   505200: {
+    nameOverride: "Wu Zetian (Caster)",
     aliases: ["Summer Wu"],
   },
   600300: {
@@ -175,6 +248,7 @@ export const ALIASES: {
     aliases: ["Gucchan", "Consort Yu"],
   },
   603600: {
+    nameOverride: "Li Shuwen (Assassin)",
     aliases: ["Old Li"],
   },
   604000: {
@@ -212,9 +286,11 @@ export const ALIASES: {
     aliases: ["Summer Brynhild"],
   },
   704100: {
+    nameOverride: "Sei Shounagon (Berserker)",
     aliases: ["Summer Nagiko", "Summer Sei"],
   },
   704300: {
+    nameOverride: "Ibuki-Douji (Berserker)",
     aliases: ["Summer Ibuki"],
   },
   800100: {
@@ -237,9 +313,15 @@ export const ALIASES: {
     aliases: ["God Caren", "Caren C. Hortensia"],
   },
   901200: {
+    nameOverride: "Leonardo da Vinci (Ruler)",
     aliases: ["Summer da Vinci"],
   },
+  901300: {
+    nameOverride: "James Moriarty (Ruler)",
+    aliases: ["Young Moriarty"],
+  },
   901400: {
+    nameOverride: "Scáthach-Skadi (Ruler)",
     aliases: ["Summer Skadi"],
   },
   901600: {
@@ -276,15 +358,18 @@ export const ALIASES: {
     aliases: ["Spishtar"],
   },
   1101100: {
+    nameOverride: "Kama (Avenger)",
     aliases: ["Summer Kama"],
   },
   1101400: {
+    nameOverride: "Erice (Avenger)",
     aliases: ["Summer Erice"],
   },
   1101500: {
     aliases: ["Also Best Girl Don't @ Me"],
   },
   2300200: {
+    nameOverride: "BB (Summer)",
     aliases: ["Summer BB"],
   },
   2300300: {
