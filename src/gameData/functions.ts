@@ -23,7 +23,7 @@ export async function compileGameData(): Promise<[Servant[], NiceClass[]]> {
   );
 
   const servantData: Servant[] = [];
-  for (const portrait of heelPortraits) {
+  for (const portrait of filteredHeelPortraits) {
     let servant: ServantBasic | undefined = naServants.find(
       (servant) => servant.id === portrait.id,
     );
